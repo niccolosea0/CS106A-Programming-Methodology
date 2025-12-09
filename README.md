@@ -18,6 +18,9 @@ CS106A is designed for beginners with little to no prior programming experience.
 - `notes/` – Personal notes and summaries from lectures
 - `projects/` – Larger programming projects completed during the course
 
+## Website link
+https://see.stanford.edu/Course/CS106A
+
 ## How to Use
 1. Clone the repository:
    ```bash
