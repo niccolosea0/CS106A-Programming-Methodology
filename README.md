@@ -1,6 +1,6 @@
 # CS106A - Programming Methodology
 
-This repository contains my work and notes for **CS106A: Programming Methodology**, a course offered by Stanford University. The course introduces fundamental programming concepts and problem-solving techniques using the Java programming language.
+This repository contains my work and materials for **CS106A: Programming Methodology**, a course offered by Stanford University. The course introduces fundamental programming concepts and problem-solving techniques using the Java programming language.
 
 ## About the Course
 CS106A is designed for beginners with little to no prior programming experience. It focuses on:
