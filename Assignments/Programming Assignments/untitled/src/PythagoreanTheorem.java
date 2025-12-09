@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class PythagoreanTheorem {
    public static void main(String[] args) {
+
+       // Scanner for reading the integers
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter a first number: ");
