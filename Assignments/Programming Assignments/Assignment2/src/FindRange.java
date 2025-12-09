@@ -28,6 +28,8 @@ public class FindRange {
         // If list is empty (no numbers in it) print message and stop program
         if (list.isEmpty()){
             System.out.println("List is empty");
+
+            scanner.close();
             return;
         }
 
@@ -38,6 +40,8 @@ public class FindRange {
         // Calculate the largest number from the list
         int largest = findLargest(list);
         System.out.println("Largest: " + largest);
+
+        scanner.close();
 
     }
 
