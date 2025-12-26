@@ -1,90 +1,70 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.*;
+/* File: ProgramHierarchy.java */
+/* This program draws program acm program hierarchy */
+/* We are using GRect, GLine, GLabel classes */
 
-public class ProgramHierarchy {
+import acm.graphics.*;
+import acm.program.*;
 
-    public static final int width = 640;
-    public static final int height = 480;
-
-    public static void main(String[] args) {
-
-        JFrame frame = new JFrame();
-        frame.setSize(width , height);
-        frame.setTitle("Target");
-        frame.setLocation(500, 250);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.setContentPane(new PanelProgram());
-        frame.setVisible(true);
-    }
-}
-
-class PanelProgram extends JComponent {
-    final static int RECTANGLE_WIDTH = 150;
-    final static int RECTANGLE_HEIGHT = 50;
-
-    public void paintComponent(Graphics g) {
-
-        int rectangleX = (getWidth() - RECTANGLE_WIDTH) / 2;
-        int rectangleY = (getHeight() - RECTANGLE_HEIGHT) / 2;
-
-        // variable to have x and y coordinates for top rectangle
-        int topRectangleX = rectangleX;
-        int topRectangleY = rectangleY - RECTANGLE_HEIGHT;
-
-        // Draw top rectangle
-        g.drawRect(topRectangleX, topRectangleY, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
-        // variable to have x and y coordinates for bottom middle rectangle
-        int bottomMiddleRectangleX = rectangleX;
-        int bottomMiddleRectangleY = rectangleY + RECTANGLE_HEIGHT;
-
-        // Draw bottom middle rectangle
-        g.drawRect(bottomMiddleRectangleX, bottomMiddleRectangleY, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
-        // variable to have x and y coordinates for bottom left rectangle
-        int bottomLeftRectangleX = rectangleX - RECTANGLE_WIDTH - 30;
-        int bottomLeftRectangleY = rectangleY + RECTANGLE_HEIGHT;
-
-        // Draw bottom left rectangle
-        g.drawRect(bottomLeftRectangleX, bottomLeftRectangleY, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
-        // variable to have x and y coordinates for bottom left rectangle
-        int bottomRightRectangleX = rectangleX + (RECTANGLE_WIDTH) + 30;
-        int bottomRightRectangleY = rectangleY + RECTANGLE_HEIGHT;
-
-        // Draw bottom left rectangle
-        g.drawRect(bottomRightRectangleX, bottomRightRectangleY, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+public class ProgramHierarchy extends GraphicsProgram {
 
 
-        // *** Calculate center points of rectangles where lines should start and end***
-        int topRectangleLineX = topRectangleX + (RECTANGLE_WIDTH / 2);
-        int topRectangleLineY = topRectangleY + RECTANGLE_HEIGHT;
+    // Rectangles width and height
+    private static final int BRICK_WIDTH = 150;
+    private static final int BRICK_HEIGHT = 60;
 
-        int bottomLeftRectangleLineX = bottomLeftRectangleX + (RECTANGLE_WIDTH / 2);
-        int bottomMiddleRectangleLineX = bottomMiddleRectangleX + (RECTANGLE_WIDTH / 2);
-        int bottomRightRectangleLineX = bottomRightRectangleX + (RECTANGLE_WIDTH / 2);
-
-       g.drawLine(topRectangleLineX, topRectangleLineY, bottomLeftRectangleLineX, bottomLeftRectangleY);
-       g.drawLine(topRectangleLineX, topRectangleLineY, bottomMiddleRectangleLineX, bottomMiddleRectangleY);
-       g.drawLine(topRectangleLineX, topRectangleLineY, bottomRightRectangleLineX, bottomRightRectangleY);
-
-
-       // FontMetrics for calculating width of the text
-       FontMetrics fm = g.getFontMetrics();
-
-       drawString(g, fm, "Program", topRectangleX, topRectangleY);
-       drawString(g, fm, "GraphicsProgram", bottomLeftRectangleX, bottomRightRectangleY);
-       drawString(g, fm, "ConsoleProgram", bottomMiddleRectangleX, bottomMiddleRectangleY);
-       drawString(g, fm, "DialogProgram", bottomRightRectangleX, bottomRightRectangleY);
+    public void run() {
+        
+     // Canvas middle points
+      double cx = getWidth() / 2;
+      double cy = getHeight() / 2;
+      add_hierarchy(cx, cy);
 
     }
 
-    public static void drawString(Graphics g, FontMetrics fm, String stringName, int rectangleX, int rectangleY) {
-        int textWidth =  fm.stringWidth(stringName);
-        int textX = rectangleX + (RECTANGLE_WIDTH - textWidth) / 2;
-        int textY = rectangleY + RECTANGLE_HEIGHT / 2;
-        g.drawString(stringName, textX, textY);
+    public void add_hierarchy(double cx, double cy) {
+        // Add Rectangles
+        add_brick(cx - BRICK_WIDTH / 2, cy - BRICK_HEIGHT); //  top rectangle
+        add_brick(cx - BRICK_WIDTH / 2, cy + BRICK_HEIGHT); // bottom-middle rectangle
+        add_brick(cx - (2 * BRICK_WIDTH), cy + BRICK_HEIGHT); // bottom-left rectangle
+        add_brick(cx + BRICK_WIDTH, cy + BRICK_HEIGHT); // bottom-right rectangle
+
+        // Add lines
+        add_line(cx, cy, cx, cy + BRICK_HEIGHT); // top-to-bottom middle line
+        add_line(cx, cy, cx - (1.5 * BRICK_WIDTH), cy + BRICK_HEIGHT); // top-to-bottomleft line
+        add_line(cx, cy, cx + (1.5 * BRICK_WIDTH), cy + BRICK_HEIGHT); // top-to-bottomleft line
+
+        // Add labels
+        // top label
+        GLabel program = new GLabel("Program");
+        double programX = cx - program.getWidth() / 2.;
+        double programY = cy - (BRICK_HEIGHT / 2) + (program.getAscent() / 2.);
+        add(program, programX, programY);
+
+        // bottom-middle label
+        GLabel console_program = new GLabel("ConsoleProgram");
+        double consoleX = cx - console_program.getWidth() / 2.; 
+        double bottomY = cy + (1.5 * BRICK_HEIGHT) + console_program.getAscent() / 2.; // This variable is same for all the bottom rectangles
+        add(console_program, consoleX, bottomY);
+
+        // bottom-left label
+        GLabel graphics_program = new GLabel("GraphicsProgram");
+        double graphicsX = cx - (1.5 * BRICK_WIDTH) - graphics_program.getWidth() / 2.;
+        add(graphics_program, graphicsX, bottomY);
+
+        // bottom-right label
+        GLabel dialog_program = new GLabel("DialogProgram");
+        double dialogX = cx + (1.5 * BRICK_WIDTH) - dialog_program.getWidth() / 2.;
+        add(dialog_program, dialogX, bottomY);
     }
+
+    public void add_brick(double x, double y) {
+        GRect brick = new GRect(x, y, BRICK_WIDTH, BRICK_HEIGHT);
+        add(brick);
+    }
+
+    public void add_line(double startX, double startY, double endX, double endY) {
+       GLine line = new GLine(startX, startY, endX, endY);
+       add(line);
+    }
+
 }
