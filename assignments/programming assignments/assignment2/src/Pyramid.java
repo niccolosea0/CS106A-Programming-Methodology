@@ -3,7 +3,6 @@
 
 import acm.graphics.*;
 import acm.program.*;
-import java.awt.*;
 
 public class Pyramid extends GraphicsProgram {
 
