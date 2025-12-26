@@ -31,23 +31,20 @@ public class Fibonacci {
     // Method to calculate fibonacci sequence
     private static void fib(int n)
     {
-       int x = 0;
-       int y = 1;
+       int t0 = 0;
+       int t1 = 1;
 
        if (n == 0) {
-           System.out.println(y);
+           System.out.println(t1);
            return;
        }
 
-       System.out.println(x);
-       int result = 0;
-
-       while (result < n)
+       while (t0 <= n)
        {
-           result = x + y;
-           System.out.println(result);
-           x = y;
-           y = result;
+           int t3 = t0 + t1;
+           System.out.println(t0);
+           t0 = t1;
+           t1 = t3;
        }
     }
 }
