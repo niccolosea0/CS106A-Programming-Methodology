@@ -1,48 +1,36 @@
-import javax.swing.*;
+/* File: Pyramid.java */
+/* This program draws pyramid consisting of bricks in horizontal row */
+
+import acm.graphics.*;
+import acm.program.*;
 import java.awt.*;
-import java.awt.geom.*;
+
+public class Pyramid extends GraphicsProgram {
+
+    private static final int BRICK_WIDTH = 35;
+    private static final int BRICK_HEIGHT = 15;
+    private static final int BRICK_IN_BASE = 14;
 
 
-public class Pyramid {
-        public static int width = 640;
-        public static int height = 480;
-    public static void main(String[] args) {
+    public void run() {
 
-        JFrame f = new JFrame();
-        f.setSize(width, height);
-        f.setLocation(500, 250);
-        f.setTitle("Pyramid");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        f.setContentPane(new Panel());
-        f.setVisible(true);
-    }
-}
+        double cx = getWidth() / 2;
+        int y = getHeight(); 
+        int bricks_in_row = BRICK_IN_BASE; // Variable that will change after each row
 
-class Panel extends JComponent {
+        for (int i = 0; i < BRICK_IN_BASE; i++) { // Loop for rows
+            double row_length_center = bricks_in_row * BRICK_WIDTH / 2.; // Calculate each row length center for positioning
 
-    public void paintComponent(Graphics g) {
+            double startX = (cx - row_length_center); // start coordiante for first brick in row
 
-        final int BRICK_WIDTH = 30;
-        final int BRICK_HEIGHT = 15;
-        final int BRICK_IN_BASE = 14; // 14 bricks in base
+            for (int j = 0; j < bricks_in_row; j++) {
+                int height = (i + 1) * BRICK_HEIGHT; // Variable for shifting height  
 
-        int panelCenterWidth = getWidth() / 2; // Center width of the panel
-        int brickY = (getHeight() - BRICK_HEIGHT); // Bottom center height
-
-        int bricks_in_row = BRICK_IN_BASE; // Variable to determine how many bricks do we have in each row
-
-        for (int column = 0; column < BRICK_IN_BASE; column++) { // Loop for printing height of the pyramid
-
-            int rowWidth = bricks_in_row * BRICK_WIDTH; // Calculating row width for positioning the pyramid
-
-            for (int row = 0; row < bricks_in_row; row++) { // For loop for printing rows
-                int startX = (panelCenterWidth) - (rowWidth / 2); // Very left position of the first brick
-                g.drawRect(startX + (row * BRICK_WIDTH), brickY - (column * BRICK_HEIGHT), BRICK_WIDTH, BRICK_HEIGHT);
+                GRect rect = new GRect(startX + j * BRICK_WIDTH, y - height, BRICK_WIDTH, BRICK_HEIGHT);
+                add(rect);
             }
-
-            bricks_in_row--; // Decrease value of the bricks_in_row for printing another row up
+            bricks_in_row--; // Decrease because we are shifting height up
         }
-
     }
 }
