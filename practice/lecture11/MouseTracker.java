@@ -3,7 +3,6 @@ import acm.program.*;
 import java.awt.event.*;
 
 public class MouseTracker extends GraphicsProgram {
-
     private GLabel label;
 
     public void run() {
@@ -15,6 +14,7 @@ public class MouseTracker extends GraphicsProgram {
     }
 
     public void mouseMoved(MouseEvent e) {
-        label.setLabel("Mouse: (" + e.getX() + " : " + e.getY() + ")");
+        label.setLabel("Mouse(" + e.getX() + ", " + e.getY() + ")");
     }
+
 }
