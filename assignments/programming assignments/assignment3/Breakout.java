@@ -54,6 +54,7 @@ public class Breakout extends GraphicsProgram {
     public void run() {
         /* You fill this in, along with any subsidiary methods */
         setup();
+        play();
     }
 
     public void setup() {
@@ -61,6 +62,11 @@ public class Breakout extends GraphicsProgram {
         createPaddle();
         addMouseListeners();
 
+    }
+
+    public void play() {
+
+        createBall();
     }
 
     // Method to create bricks
@@ -114,33 +120,57 @@ public class Breakout extends GraphicsProgram {
 
         paddle = new GRect(PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFilled(true);
-        add(paddle, (getWidth() - PADDLE_WIDTH) / 2, getHeight() -  PADDLE_Y_OFFSET - PADDLE_HEIGHT);
+        add(paddle, (WIDTH - PADDLE_WIDTH) / 2, HEIGHT -  PADDLE_Y_OFFSET - PADDLE_HEIGHT);
     }
 
     // Locate paddle when mouse is pressed, ensure paddle is selected
     public void mousePressed(MouseEvent e) {
 
         paddleLast = new GPoint(e.getX(), e.getY());
-        paddle = (GRect) getElementAt(paddleLast);
+        GObject obj = getElementAt(paddleLast);
+
+        if (obj == paddle) {
+            paddle = (GRect) obj;
+        }
     }
 
     public void mouseDragged(MouseEvent e) {
 
         if (paddle != null) {
             paddle.move(e.getX() - paddleLast.getX(), 0);
+
+            // left boundary
             if (paddle.getX() <= 0) {
                 paddle.setLocation(0, paddle.getY());
-            } else if (paddle.getX() >= getWidth() - PADDLE_WIDTH) {
-                paddle.setLocation(getWidth() - PADDLE_WIDTH, paddle.getY());
+            } 
+
+            // right boundaty
+            else if (paddle.getX() >= WIDTH - PADDLE_WIDTH) {
+                paddle.setLocation(WIDTH - PADDLE_WIDTH, paddle.getY());
             }
+
+            // Update last positions
             paddleLast = new GPoint(e.getX(), e.getY());
         }
+    }
+
+    private void createBall() {
+        double diameter = 2 * BALL_RADIUS;
+        ball = new GOval(
+            WIDTH / 2 - BALL_RADIUS,
+            HEIGHT / 2 - BALL_RADIUS,
+            diameter,
+            diameter
+        );
+        ball.setFilled(true);
+        add(ball);
     }
 
     // Private instance variables
     private GRect brick;
     private GRect paddle;
     private GPoint paddleLast;
+    private GOval ball;
 
     // Adding main method to determine main class
     public static void main(String[] args) {
