@@ -53,9 +53,17 @@ public class Breakout extends GraphicsProgram {
 
     public void run() {
         /* You fill this in, along with any subsidiary methods */
-        setupBricks();
+        setup();
     }
 
+    public void setup() {
+        setupBricks();
+        createPaddle();
+        addMouseListeners();
+
+    }
+
+    // Method to create bricks
     private void setupBricks() {
         double startX = (WIDTH - (NBRICKS_PER_ROW * BRICK_WIDTH +
                     (NBRICKS_PER_ROW - 1) * BRICK_SEP)) / 2; 
@@ -70,6 +78,7 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    // Method to give bricks color
     private void giveBrickColor(GRect brick, int row) {
         switch (row) {
     
@@ -100,5 +109,41 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    // Method to create a paddle
+    private void createPaddle() {
+
+        paddle = new GRect(PADDLE_WIDTH, PADDLE_HEIGHT);
+        paddle.setFilled(true);
+        add(paddle, (getWidth() - PADDLE_WIDTH) / 2, getHeight() -  PADDLE_Y_OFFSET - PADDLE_HEIGHT);
+    }
+
+    // Locate paddle when mouse is pressed, ensure paddle is selected
+    public void mousePressed(MouseEvent e) {
+
+        paddleLast = new GPoint(e.getX(), e.getY());
+        paddle = (GRect) getElementAt(paddleLast);
+    }
+
+    public void mouseDragged(MouseEvent e) {
+
+        if (paddle != null) {
+            paddle.move(e.getX() - paddleLast.getX(), 0);
+            if (paddle.getX() <= 0) {
+                paddle.setLocation(0, paddle.getY());
+            } else if (paddle.getX() >= getWidth() - PADDLE_WIDTH) {
+                paddle.setLocation(getWidth() - PADDLE_WIDTH, paddle.getY());
+            }
+            paddleLast = new GPoint(e.getX(), e.getY());
+        }
+    }
+
+    // Private instance variables
     private GRect brick;
+    private GRect paddle;
+    private GPoint paddleLast;
+
+    // Adding main method to determine main class
+    public static void main(String[] args) {
+        new Breakout().start(args);
+    }
 }
