@@ -34,10 +34,6 @@ public class UfoGame extends GraphicsProgram {
             pause(DELAY);
         }
 
-        GLabel label = new GLabel("Game is over!");
-        label.setFont("Times New Roman-36");
-        add(label, (getWidth() - label.getWidth()) / 2, (getHeight() - label.getAscent())  / 2);
-
     }
 
     // setup UFO and mouse listeners
@@ -50,10 +46,32 @@ public class UfoGame extends GraphicsProgram {
         addMouseListeners();
     }
 
+    private void printLabel(String text) {
+        label = new GLabel("");
+        label.setLabel(text);
+        label.setColor(Color.BLUE);
+        label.setFont("Times New Roman-36");
+        add(label, (getWidth() - label.getWidth()) / 2., (getHeight() - label.getAscent()) / 2.);
+    }
+
     // determine if game is over -- ture if either the UFO is destroyed or if the UFO lands
     private boolean gameOver() {
-        return (ufo == null) 
-            || (ufo.getY() >= (getHeight() - ufo.getHeight()));
+
+        boolean flag = false;
+
+        if (ufo == null) {
+            flag = true;
+            printLabel("Congrats, You WON!");
+        } else if (ufo.getY() >= (getHeight() - ufo.getHeight())) {
+            flag = true;
+            printLabel("Game over, good luck next time");
+        }
+
+        return flag;
+    
+
+        // return (ufo == null) 
+        //     || (ufo.getY() >= (getHeight() - ufo.getHeight()));
     }
 
     // When mouse is clicked create a bullet, unless bullet already exists
@@ -123,5 +141,6 @@ public class UfoGame extends GraphicsProgram {
     private GRect ufo;
     private GOval bullet;
     private boolean ufoToLeft; // when true, UFO is moving to left
+    private GLabel label;
 
 }
