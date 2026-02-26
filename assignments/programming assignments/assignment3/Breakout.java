@@ -67,6 +67,8 @@ public class Breakout extends GraphicsProgram {
     public void play() {
 
         createBall();
+        initializeVelocity();
+        moveBall();
     }
 
     // Method to create bricks
@@ -134,6 +136,7 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    // Method that dragges paddles
     public void mouseDragged(MouseEvent e) {
 
         if (paddle != null) {
@@ -154,6 +157,7 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    // Method that creates a ball
     private void createBall() {
         double diameter = 2 * BALL_RADIUS;
         ball = new GOval(
@@ -166,11 +170,45 @@ public class Breakout extends GraphicsProgram {
         add(ball);
     }
 
+    // Method to initialize velocities
+    private void initializeVelocity() {
+        // Vertical velocity will be differnet in games
+        vx = rgen.nextDouble(1.0, 3.0);
+        vy = 3;
+        if (rgen.nextBoolean(0.5)) 
+            vx = - vx;
+    }
+
+    // Method where ball actually moves
+    private void moveBall() {
+        while (true) {
+            ball.move(vx, vy);
+            checkWallCollisions();
+            pause(7);
+
+        }
+    }
+
+    // Method to check if ball hit walls
+    private void checkWallCollisions() {
+        // left wall or right wall
+        if ((ball.getX() <= 0) || (ball.getX() + (2 * BALL_RADIUS)) >= WIDTH) {
+            vx = -vx;
+        }
+
+        // top wall or bottom wall
+        if ((ball.getY() <= 0) || (ball.getY() + (2 * BALL_RADIUS)) >= HEIGHT) {
+            vy = -vy;
+        }
+    }
+
     // Private instance variables
     private GRect brick;
     private GRect paddle;
     private GPoint paddleLast;
     private GOval ball;
+    private double vx, vy;
+    private RandomGenerator rgen = RandomGenerator.getInstance();
 
     // Adding main method to determine main class
     public static void main(String[] args) {
