@@ -189,7 +189,7 @@ public class Breakout extends GraphicsProgram {
             ball.move(vx, vy);
             checkWallCollisions();
             dealWithCollide();
-            pause(1);
+            pause(6);
             if (hearts == 0 || brickCount == 0) {
                 gameOver();
                 flag = false;
