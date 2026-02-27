@@ -25,7 +25,7 @@ public class Breakout extends GraphicsProgram {
     private static final int PADDLE_HEIGHT = 10;
 
     /** Offset of the paddle up from the bottom */
-    private static final int PADDLE_Y_OFFSET = 30;
+    private static final int PADDLE_Y_OFFSET = 60;
 
     /** Number of bricks per row */
     private static final int NBRICKS_PER_ROW = 10;
@@ -121,7 +121,7 @@ public class Breakout extends GraphicsProgram {
 
         paddle = new GRect(PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFilled(true);
-        add(paddle, (WIDTH - PADDLE_WIDTH) / 2, HEIGHT -  PADDLE_Y_OFFSET - PADDLE_HEIGHT);
+        add(paddle, (WIDTH - PADDLE_WIDTH) / 2, (HEIGHT -  PADDLE_Y_OFFSET - PADDLE_HEIGHT));
     }
 
     // Locate paddle when mouse is pressed, ensure paddle is selected
@@ -242,7 +242,6 @@ public class Breakout extends GraphicsProgram {
             remove(collider);
             vy = -vy;
         }
-
     }
 
 
@@ -254,6 +253,7 @@ public class Breakout extends GraphicsProgram {
     private GOval ball;
     private double vx, vy;
     private RandomGenerator rgen = RandomGenerator.getInstance();
+    private int hearts = 5;
 
     // Adding main method to determine main class
     public static void main(String[] args) {
