@@ -64,6 +64,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     public void play() {
+        printHeartMessage();
         createBall();
         initializeVelocity();
         moveBall();
@@ -80,6 +81,7 @@ public class Breakout extends GraphicsProgram {
                 brick.setFilled(true);
                 giveBrickColor(brick, i);
                 add(brick);
+                brickCount++;
             }
         }
     }
@@ -181,27 +183,45 @@ public class Breakout extends GraphicsProgram {
     // Method where ball actually moves
     private void moveBall() {
         GObject collider = getCollidingObject();
+        boolean flag = true;
 
-        while (true) {
+        while (flag) {
             ball.move(vx, vy);
             checkWallCollisions();
             dealWithCollide();
             pause(6);
-
+            if (hearts == 0 || brickCount == 0) {
+                flag = false;
+            }
         }
     }
 
     // Method to check if ball hit walls
     private void checkWallCollisions() {
         // left wall or right wall
-        if ((ball.getX() <= 0) || (ball.getX() + (2 * BALL_RADIUS)) >= WIDTH) {
+        double x = ball.getX();
+        double y = ball.getY();
+        double diameter = 2 * BALL_RADIUS;
+        
+        if ((x <= 0) || (x + diameter) >= WIDTH) {
             vx = -vx;
         }
 
         // top wall or bottom wall
-        if ((ball.getY() <= 0) || (ball.getY() + (2 * BALL_RADIUS)) >= HEIGHT) {
+        if ((y <= 0) || (y + diameter) >= HEIGHT) {
             vy = -vy;
+            if (y + diameter >= HEIGHT) {
+                hearts -= 1;
+                printHeartMessage();
+            }
         }
+    }
+
+    private void printHeartMessage() {
+        heartsLabel.setLabel("Hearts: " + hearts);
+        heartsLabel.setFont("Times New Roman-18");
+        heartsLabel.setColor(Color.RED);
+        add(heartsLabel, 0 + heartsLabel.getWidth() / 2, HEIGHT - (2 * heartsLabel.getAscent()));
     }
 
     // Method to get Colliding Object
@@ -238,9 +258,10 @@ public class Breakout extends GraphicsProgram {
         
         if (collider == paddle) {
             vy = -vy;
-        } else if (collider != null) {
+        } else if (collider != null && collider != heartsLabel) {
             remove(collider);
             vy = -vy;
+            brickCount--;
         }
     }
 
@@ -254,6 +275,8 @@ public class Breakout extends GraphicsProgram {
     private double vx, vy;
     private RandomGenerator rgen = RandomGenerator.getInstance();
     private int hearts = 5;
+    private int brickCount = 0;
+    private GLabel heartsLabel = new GLabel("");
 
     // Adding main method to determine main class
     public static void main(String[] args) {
