@@ -189,8 +189,9 @@ public class Breakout extends GraphicsProgram {
             ball.move(vx, vy);
             checkWallCollisions();
             dealWithCollide();
-            pause(6);
+            pause(1);
             if (hearts == 0 || brickCount == 0) {
+                gameOver();
                 flag = false;
             }
         }
@@ -265,7 +266,40 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    private void gameOver() {
+        removeObjects();
 
+        if (hearts == 0) {
+            defeat();
+        } else {
+            victory();
+        }
+    }
+
+    private void defeat() {
+        printLastText("You Lost! Try next time");
+    }
+
+    private void victory() {
+        printLastText("You Won! Congrats");
+    }
+
+
+    private void printLastText(String text) {
+
+        GLabel label = new GLabel("");
+        label.setLabel(text);
+        label.setFont("Arial-20");
+        label.setColor(Color.BLUE);
+        add(label, (WIDTH - label.getWidth()) / 2, (HEIGHT - label.getHeight()) / 2);
+    }
+
+    private void removeObjects() {
+        remove(ball);
+        remove(paddle);
+        remove(heartsLabel);
+        remove(brick);
+    }
 
     // Private instance variables
     private GRect brick;
