@@ -61,11 +61,9 @@ public class Breakout extends GraphicsProgram {
         setupBricks();
         createPaddle();
         addMouseListeners();
-
     }
 
     public void play() {
-
         createBall();
         initializeVelocity();
         moveBall();
@@ -113,7 +111,8 @@ public class Breakout extends GraphicsProgram {
             case 8:
             case 9:
                 brick.setColor(Color.CYAN);
-                break;
+    
+    break;
         }
     }
 
@@ -176,15 +175,18 @@ public class Breakout extends GraphicsProgram {
         vx = rgen.nextDouble(1.0, 3.0);
         vy = 3;
         if (rgen.nextBoolean(0.5)) 
-            vx = - vx;
+            vx = -vx;
     }
 
     // Method where ball actually moves
     private void moveBall() {
+        GObject collider = getCollidingObject();
+
         while (true) {
             ball.move(vx, vy);
             checkWallCollisions();
-            pause(7);
+            dealWithCollide();
+            pause(6);
 
         }
     }
@@ -201,6 +203,49 @@ public class Breakout extends GraphicsProgram {
             vy = -vy;
         }
     }
+
+    // Method to get Colliding Object
+    private GObject getCollidingObject() {
+
+        double x = ball.getX();
+        double y = ball.getY();
+        double diameter = (2 * BALL_RADIUS);
+
+        // object on top left
+        GObject collider = getElementAt(x, y);
+
+        if (collider == null) {
+            // get object on top right
+            collider = getElementAt(x + diameter, y);
+        }
+
+        if (collider == null) {
+            // get object on bottom left
+            collider = getElementAt(x, y + diameter);
+        }
+
+        if (collider == null) {
+            // get object on bottom right
+            collider = getElementAt(x + diameter, y + diameter);
+        }
+
+        return collider;
+    }
+
+    private void dealWithCollide() {
+
+        GObject collider = getCollidingObject();
+        
+        if (collider == paddle) {
+            vy = -vy;
+        } else if (collider != null) {
+            remove(collider);
+            vy = -vy;
+        }
+
+    }
+
+
 
     // Private instance variables
     private GRect brick;
