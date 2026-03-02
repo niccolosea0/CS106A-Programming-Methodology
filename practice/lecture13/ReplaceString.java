@@ -1,14 +1,17 @@
-public class ReplaceString {
-    public static void main(String[] args) {
+import acm.program.*;
 
+public class ReplaceString extends ConsoleProgram{
+    public void run() {
+
+        setFont("Arial-24");
         String sentence = "How old are you my friend?";
-        System.out.println("Sentence is: " + sentence);
+        println("Sentence is: " + sentence);
         String updatedSentence = replaceOccurance(sentence, "old", "well");
-        System.out.println("Changed sentence: " + updatedSentence);
+        println("Changed sentence: " + updatedSentence);
          
     }
 
-    public static String replaceOccurance(String str, String orig, String repl) {
+    public String replaceOccurance(String str, String orig, String repl) {
 
         int index = str.indexOf(orig);
         if (index != -1) {
