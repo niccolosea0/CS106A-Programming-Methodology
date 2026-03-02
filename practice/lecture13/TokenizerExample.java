@@ -4,7 +4,7 @@ import acm.program.*;
 public class TokenizerExample extends ConsoleProgram {
 
     private void printTokens(String str) {
-        StringTokenizer tokenizer = new StringTokenizer(str);
+        StringTokenizer tokenizer = new StringTokenizer(str, ", ");
         for (int count = 0; tokenizer.hasMoreTokens(); count++) {
             println("Token #" + count + ": " + tokenizer.nextToken());
         }
