@@ -14,6 +14,10 @@ public class CeaserCipher extends ConsoleProgram {
 
     private String encryptCeaser(String str, int key) {
 
+        if (key < 0) {
+            key = 26 - (-key % 26);
+        }
+
         String result = "";
 
         for (int i = 0; i < str.length(); i++) {
