@@ -6,7 +6,6 @@ public class StringProcessing extends ConsoleProgram {
         
         int length = digits.length();
         int count = 1;
-        String string = "";
         
         for (int i = length - 1; i >= 0; i--) {
             if (count % 3 == 0) {
