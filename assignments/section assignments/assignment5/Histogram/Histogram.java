@@ -10,6 +10,10 @@ public class Histogram extends ConsoleProgram {
         setFont("Arial-19");
         BufferedReader fileReader = openFile("Please enter a filename: ");
         List<Integer> scoreList = readScores(fileReader);
+        int[] binRange = setupBin(scoreList);
+        for (int i = 0; i < binRange.length; i++) {
+            println(i + " " + binRange[i]);
+        }
     }
 
     // Method to open file carefully
@@ -38,15 +42,32 @@ public class Histogram extends ConsoleProgram {
             while ((line = reader.readLine()) != null) {
                 try {
                     int score = Integer.parseInt(line.trim());
-                    println("Read integer: " + score);
                     list.add(score);
                 } catch (NumberFormatException e) {
                     println("Skiping non-integer line - " + line);
                 }
             }
         } catch (IOException ex) {
-            throw new ErroException(ex);
+            throw new ErrorException(ex);
         }
         return list;
+    }
+
+    private int[] setupBin(List<Integer> list) {
+
+        int[] bin = new int[11];    
+
+        for (int i = 0; i < 11; i++) {
+            bin[i] = 0;
+        }
+
+        for (Integer score : list) {
+            // determine bin index
+            int index = score / 10;
+
+            bin[index]++;
+        }
+
+        return bin;
     }
 }
