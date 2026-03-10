@@ -9,7 +9,7 @@ public class Histogram extends ConsoleProgram {
 
         setFont("Arial-19");
         BufferedReader fileReader = openFile("Please enter a filename: ");
-        List<Integer> scoreList = readFile(fileReader);
+        List<Integer> scoreList = readScores(fileReader);
     }
 
     // Method to open file carefully
@@ -29,7 +29,8 @@ public class Histogram extends ConsoleProgram {
         return reader;
     }
 
-    private List<Integer> readFile(BufferedReader reader) {
+    // Method to read scores from the file
+    private List<Integer> readScores(BufferedReader reader) {
 
         List<Integer> list = new ArrayList<>();
         String line;
@@ -44,7 +45,7 @@ public class Histogram extends ConsoleProgram {
                 }
             }
         } catch (IOException ex) {
-            throw new ErrorException(ex);
+            throw new ErroException(ex);
         }
         return list;
     }
