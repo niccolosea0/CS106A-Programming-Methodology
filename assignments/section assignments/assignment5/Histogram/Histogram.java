@@ -10,10 +10,8 @@ public class Histogram extends ConsoleProgram {
         setFont("Arial-19");
         BufferedReader fileReader = openFile("Please enter a filename: ");
         List<Integer> scoreList = readScores(fileReader);
-        int[] binRange = setupBin(scoreList);
-        for (int i = 0; i < binRange.length; i++) {
-            println(i + " " + binRange[i]);
-        }
+        int[] arrayHistogram = setupBin(scoreList);
+        displayHistogram(arrayHistogram);
     }
 
     // Method to open file carefully
@@ -53,13 +51,11 @@ public class Histogram extends ConsoleProgram {
         return list;
     }
 
+    // This method creates array which stores 
+    // count of scores for corresponding binIndex (score / 10)
     private int[] setupBin(List<Integer> list) {
 
         int[] bin = new int[11];    
-
-        for (int i = 0; i < 11; i++) {
-            bin[i] = 0;
-        }
 
         for (Integer score : list) {
             // determine bin index
@@ -69,5 +65,22 @@ public class Histogram extends ConsoleProgram {
         }
 
         return bin;
+    }
+
+    private void displayHistogram(int[] histogramBins) {
+
+        for (int i = 0; i < histogramBins.length; i++) {
+
+            String label;
+            if (i == 10) {
+                label = "   100: ";
+            } else {
+                int start = i * 10;
+                int end = start + 9;
+                label = String.format("%02d-%02d: ", start, end);
+            }
+
+            println(label + "*".repeat(histogramBins[i]));
+        }
     }
 }
