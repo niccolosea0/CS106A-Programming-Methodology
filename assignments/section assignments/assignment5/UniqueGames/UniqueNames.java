@@ -12,17 +12,11 @@ public class UniqueNames extends ConsoleProgram {
         // List where we will add unique names
         List<String> uniqueNames = new ArrayList<>();
 
-        for (int i = 0; i < namesList.size(); i++) {
+        for (String name : namesList) {
 
-            String specificName = namesList.get(i);
-
-            // If name is already in unique list, skip adding it
-            if (uniqueNames.contains(specificName)) {
-                continue;
+            if (!uniqueNames.contains(name)) {
+                uniqueNames.add(name);
             }
-
-            // If name is not in the uniqueList, add it
-            uniqueNames.add(specificName);
         }
 
         println("Unique names list contains:");
