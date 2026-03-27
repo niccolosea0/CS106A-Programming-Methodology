@@ -36,9 +36,7 @@ public class Hangman extends ConsoleProgram {
             display[i] = '-';
         }
 
-
         println("Welcome to Hangman!");
-
 
         // Loop where we play the game
         while (guessesLeft != 0 && !new String(display).equals(word)) {
@@ -49,35 +47,49 @@ public class Hangman extends ConsoleProgram {
             char guess = getValidGuess(guessedLetters);
             guessedLetters.add(guess);
 
-            if (word.indexOf(guess) >= 0) {
-                println("That guess is correct!");
+            // Call method
+            guessesLeft = checkGuess(guess, word, display, guessesLeft);
+       }
 
-                // Check all of the letters
-                for (int i = 0; i < word.length(); i++) {
-                    if (word.charAt(i) == guess) {
-                        display[i] = guess;
-                    }
-                }
+       printFinalMessage(word, display);
 
-            } else {
-                println("That guess is incorrect!");
-                guessesLeft--;
-            }
-        }
+    }
+
+    private void printFinalMessage(String word, char[] display) {
 
         if (new String(display).equals(word)) {
             println("You guessed the word: " + word + " - You WIN!");
         } else {
             println("You Lost!, the word was: " + word);
         }
+    }
 
+    // If guess is in the word, it will be added to display
+    // Method returns guessesLeft
+    private int checkGuess(char guess, String word, char[] display, int guessesLeft) {
+
+        if (word.indexOf(guess) >= 0) {
+            println("That guess is correct!");
+
+            // Check all of the letters
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == guess) {
+                    display[i] = guess;
+                }
+            }
+        } else {
+            println("There are no " + guess + "'s  in the word");
+            guessesLeft--;
+        }
+
+        return guessesLeft;
     }
 
     private char getValidGuess(Set<Character> guessedLetters) {
 
         while (true) {
 
-            String input = readLine("Your guess: ");
+            String input = readLine("Your guess: ").toUpperCase().trim();
 
             char letter = input.charAt(0);
 
