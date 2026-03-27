@@ -2,112 +2,96 @@ import acm.program.*;
 import acm.util.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Hangman extends ConsoleProgram {
 
+    private static final int MAX_GUESSES = 8;
+
     public void run() {
-
         setup();
-
    }
 
-    public void setup() {
+   public void setup() {
 
-        setFont("Arial-20");
-        
-        // Instance variable
-        HangmanLexicon hangmanLexicon = new HangmanLexicon();
+       setFont("Arial-20");
+       RandomGenerator rgn = RandomGenerator.getInstance();
+       HangmanLexicon lexicon = new HangmanLexicon();
 
-        // Variables
-        String word = hangmanLexicon.getWord(0);
+       String word = lexicon.getWord(rgn.nextInt(0, lexicon.getWordCount() - 1));
+       playGame(word);
+   }
 
-        // Word length
-        int wordLength = word.length();
+    public void playGame(String word) {
 
-        // Number of allowed guesses
-        int guessesCount = 8;
+        int guessesLeft = MAX_GUESSES;
 
-        // List that contains word letter by letter
-        List<String> charactersList = getCharactersList(word);
+        char[] display = new char[word.length()];
 
-        // List<Character> guessedChars = new ArrayList<>();
-        String[] guessedChars = getCharacters(wordLength);
-        //
-        // Variable to track, if user guessed the word
-        String guessedWord = getString(guessedChars);
+        Set<Character> guessedLetters = new HashSet<>();
+
+        // Fill the display with dashes
+        for (int i = 0; i < display.length; i++) {
+            display[i] = '-';
+        }
 
 
         println("Welcome to Hangman!");
 
 
         // Loop where we play the game
-        while (guessesCount > 0 && !guessedWord.equals(word)) {
+        while (guessesLeft != 0 && !new String(display).equals(word)) {
 
-            println("The word now looks like this: " + guessedWord);
-            println("You have " + guessesCount + " guesses left.");
+            println("The word now looks like this: " + new String(display));
+            println("You have " + guessesLeft + " guesses left.");
 
-            String guess = readLine("Your guess: ").toUpperCase();
+            char guess = getValidGuess(guessedLetters);
+            guessedLetters.add(guess);
 
-            // Validate user input
-            if (guess.length() > 1) {
-                println("Invalid guess, enter one letter!");
+            if (word.indexOf(guess) >= 0) {
+                println("That guess is correct!");
+
+                // Check all of the letters
+                for (int i = 0; i < word.length(); i++) {
+                    if (word.charAt(i) == guess) {
+                        display[i] = guess;
+                    }
+                }
+
+            } else {
+                println("That guess is incorrect!");
+                guessesLeft--;
+            }
+        }
+
+        if (new String(display).equals(word)) {
+            println("You guessed the word: " + word + " - You WIN!");
+        } else {
+            println("You Lost!, the word was: " + word);
+        }
+
+    }
+
+    private char getValidGuess(Set<Character> guessedLetters) {
+
+        while (true) {
+
+            String input = readLine("Your guess: ");
+
+            char letter = input.charAt(0);
+
+            if (input.length() != 1 || !Character.isLetter(letter)) {
+                println("Please enter a letter!");
+                continue;
+            } else if (guessedLetters.contains(letter)) {
+                println("You have already guessed that letter, try another!");
                 continue;
             }
 
-            if (charactersList.contains(guess)) {
-                println("That guess is correct!");
-                int index = charactersList.indexOf(guess);
-                guessedChars[index] = guess;
-                guessedWord = "" + getString(guessedChars);
-
-            } else {
-                println("There are no " + guess + "'s in the word!");
-                guessesCount--;
-            }
-        
-        }
-
-        if (!guessedWord.equals(word)) {
-            println("The word was: " + word);
-            println("You Lose!");
-        } else {
-            println("You guessed the word: " + guessedWord);
-            println("You Win!");
+            return letter;
         }
     }
-
-    public String getString(String[] array) {
-
-        String result = "";
-        for (String elem : array) {
-            result += elem;
-        }
-
-        return result;
-    }
-
-    // Method tjhat takes word length as parameter and returns string array
-    public String[] getCharacters(int length) {
-        String[] array = new String[length];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = "-";
-        }
-
-        return array;
-    }
-
-    // Method that takes word as parameter
-    // and returns List<String> with seperate characters
-    public List<String> getCharactersList(String word) {
-        List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < word.length(); i++) {
-            list.add("" + word.charAt(i));
-        }
-
-        return list;
-    }
-
 }
 
 class HangmanLexicon {
