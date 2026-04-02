@@ -8,10 +8,16 @@ import java.util.HashSet;
 public class Hangman extends ConsoleProgram {
 
     private static final int MAX_GUESSES = 8;
+    private HangmanCanvas canvas;
+
+    public void init() {
+        canvas = new HangmanCanvas();
+        add(canvas);
+    }
 
     public void run() {
         setup();
-   }
+    }
 
    public void setup() {
 
@@ -21,7 +27,7 @@ public class Hangman extends ConsoleProgram {
 
        String word = lexicon.getWord(rgn.nextInt(0, lexicon.getWordCount() - 1));
        playGame(word);
-   }
+    }
 
     public void playGame(String word) {
 
@@ -53,7 +59,7 @@ public class Hangman extends ConsoleProgram {
 
        printFinalMessage(word, display);
 
-    }
+     }
 
     private void printFinalMessage(String word, char[] display) {
 
