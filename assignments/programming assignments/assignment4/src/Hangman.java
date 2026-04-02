@@ -16,7 +16,6 @@ public class Hangman extends ConsoleProgram {
     }
 
     public void run() {
-        canvas.reset();
         setup();
     }
 
@@ -32,6 +31,7 @@ public class Hangman extends ConsoleProgram {
 
     public void playGame(String word) {
 
+        canvas.reset();
         int guessesLeft = MAX_GUESSES;
 
         char[] display = new char[word.length()];
@@ -89,6 +89,7 @@ public class Hangman extends ConsoleProgram {
         } else {
             println("There are no " + guess + "'s  in the word");
             guessesLeft--;
+            canvas.noteIncorrectGuess(guess);
         }
 
         return guessesLeft;

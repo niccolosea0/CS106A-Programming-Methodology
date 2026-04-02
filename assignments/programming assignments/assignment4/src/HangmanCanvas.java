@@ -12,6 +12,7 @@ public class HangmanCanvas extends GCanvas {
         /* You fill this in */
         removeAll();
         lettersLabel = new GLabel("");
+        incorrectLettersLabel = new GLabel("");
     }
 
     /**
@@ -22,9 +23,9 @@ public class HangmanCanvas extends GCanvas {
     public void displayWord(String word) {
         /* You fill this in */
         remove(lettersLabel);
-        lettersLabel.setLabel("Letters: " + word);
+        lettersLabel.setLabel("" + word);
         lettersLabel.setFont("Arial-18");
-        add(lettersLabel, (0 + lettersLabel.getWidth() / 2) , (getHeight() - 100 - lettersLabel.getAscent() / 2));
+        add(lettersLabel, 50, (getHeight() - 85 - lettersLabel.getAscent() / 2));
     }
 
     /**
@@ -35,6 +36,15 @@ public class HangmanCanvas extends GCanvas {
     */
     public void noteIncorrectGuess(char letter) {
         /* You fill this in */
+        
+        // get current label
+        String current = incorrectLettersLabel.getLabel();
+
+        // append current labl with letter, and set it
+        incorrectLettersLabel.setLabel(current + letter);
+
+        incorrectLettersLabel.setFont("Arial-16");
+        add(incorrectLettersLabel, 50, (getHeight() - 50 - incorrectLettersLabel.getAscent() / 2));
     }
 
     /* Constants for the simple version of the picture (in pixels) */
@@ -50,5 +60,6 @@ public class HangmanCanvas extends GCanvas {
     private static final int LEG_LENGTH = 108;
     private static final int FOOT_LENGTH = 28;
 
-    private GLabel lettersLabel = new GLabel("");
+    private GLabel lettersLabel;
+    private GLabel incorrectLettersLabel;
 }
