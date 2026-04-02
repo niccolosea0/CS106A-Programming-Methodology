@@ -16,6 +16,7 @@ public class Hangman extends ConsoleProgram {
     }
 
     public void run() {
+        canvas.reset();
         setup();
     }
 
