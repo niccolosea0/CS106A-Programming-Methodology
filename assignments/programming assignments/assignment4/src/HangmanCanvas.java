@@ -11,6 +11,7 @@ public class HangmanCanvas extends GCanvas {
     public void reset() {
         /* You fill this in */
         removeAll();
+        lettersLabel = new GLabel("");
     }
 
     /**
@@ -20,6 +21,7 @@ public class HangmanCanvas extends GCanvas {
     */
     public void displayWord(String word) {
         /* You fill this in */
+        remove(lettersLabel);
         lettersLabel.setLabel("Letters: " + word);
         lettersLabel.setFont("Arial-18");
         add(lettersLabel, (0 + lettersLabel.getWidth() / 2) , (getHeight() - 100 - lettersLabel.getAscent() / 2));
