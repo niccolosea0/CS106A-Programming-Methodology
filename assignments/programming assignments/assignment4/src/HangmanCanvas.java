@@ -19,6 +19,9 @@ public class HangmanCanvas extends GCanvas {
     */
     public void displayWord(String word) {
         /* You fill this in */
+        lettersLabel.setLabel("Letters: " + word);
+        lettersLabel.setFont("Arial-18");
+        add(lettersLabel, (0 + lettersLabel.getWidth() / 2) , (getHeight() - 100 - lettersLabel.getAscent() / 2));
     }
 
     /**
@@ -43,4 +46,6 @@ public class HangmanCanvas extends GCanvas {
     private static final int HIP_WIDTH = 36;
     private static final int LEG_LENGTH = 108;
     private static final int FOOT_LENGTH = 28;
+
+    private GLabel lettersLabel = new GLabel("");
 }

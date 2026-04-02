@@ -47,7 +47,9 @@ public class Hangman extends ConsoleProgram {
         // Loop where we play the game
         while (guessesLeft != 0 && !new String(display).equals(word)) {
 
-            println("The word now looks like this: " + new String(display));
+            String dispWord = new String(display);
+            canvas.displayWord(dispWord);
+            println("The word now looks like this: " + dispWord);
             println("You have " + guessesLeft + " guesses left.");
 
             char guess = getValidGuess(guessedLetters);
