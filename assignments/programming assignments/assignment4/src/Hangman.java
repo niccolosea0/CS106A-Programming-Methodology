@@ -1,7 +1,5 @@
 import acm.program.*;
 import acm.util.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -11,6 +9,7 @@ public class Hangman extends ConsoleProgram {
     private HangmanCanvas canvas;
 
     public void init() {
+        setSize(1280, 720);
         canvas = new HangmanCanvas();
         add(canvas);
     }
