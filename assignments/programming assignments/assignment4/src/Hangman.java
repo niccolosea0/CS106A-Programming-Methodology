@@ -98,7 +98,7 @@ public class Hangman extends ConsoleProgram {
 
         while (true) {
 
-            String input = readLine("Your guess: ").toUpperCase().trim();
+            String input = readLine("Your guess: ").toLowerCase().trim();
 
             char letter = input.charAt(0);
 
