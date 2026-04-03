@@ -1,5 +1,0 @@
-<classpath>
-    <classpathentry kind="src" path="."/>
-    <classpathentry kind="lib" path="acm.jar"/>
-    <classpathentry kind="output" path="."/>
-</classpath>
